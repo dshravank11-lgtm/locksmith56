@@ -1217,30 +1217,42 @@ RULES:
             send(val);
         }
 
-        async function fetchAI() {
-            awaitingResult = true;
-            const typingEl = showTyping();
-            try {
-                const conversationMsgs = history.map(m => ({ role: m.role, content: m.content }));
-                const VERCEL_PROXY_URL = 'https://quizch.vercel.app/';
-                const res = await fetch(VERCEL_PROXY_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ messages: conversationMsgs })
-                });
-                const data = await res.json();
-                removeTyping(typingEl);
-                if (!data.choices?.[0]?.message?.content) { appendMsg('bot', 'something went wrong.'); awaitingResult = false; return }
-                const text = data.choices[0].message.content.trim();
-                history.push({ role: 'assistant', content: text });
-                if (text.includes('RESULT:')) { startCooking(text) }
-                else { showQuestionWithOptions(text) }
-            } catch (e) {
-                removeTyping(typingEl);
-                appendMsg('bot', 'connection failed.');
-                awaitingResult = false;
-            }
+async function fetchAI() {
+    awaitingResult = true;
+    const typingEl = showTyping();
+    try {
+        const conversationMsgs = history.map(m => ({ role: m.role, content: m.content }));
+        const VERCEL_PROXY_URL = '/api/proxy';
+        
+        const res = await fetch(VERCEL_PROXY_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages: conversationMsgs })
+        });
+
+        const data = await res.json();
+        removeTyping(typingEl);
+
+        if (!data.choices?.[0]?.message?.content) { 
+            appendMsg('bot', 'something went wrong.'); 
+            awaitingResult = false; 
+            return; 
         }
+
+        const text = data.choices[0].message.content.trim();
+        history.push({ role: 'assistant', content: text });
+
+        if (text.includes('RESULT:')) { 
+            startCooking(text); 
+        } else { 
+            showQuestionWithOptions(text); 
+        }
+    } catch (e) {
+        removeTyping(typingEl);
+        appendMsg('bot', 'connection failed.');
+        awaitingResult = false;
+    }
+}
 
         function showQuestionWithOptions(text) {
             const parts = text.split('||');
