@@ -2,11 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "/quiz-backend/api/:path*.js"
-    },
-    {
-      "source": "/((?!api/).*)",
-      "destination": "/frontend/$1"
+      "destination": "/api/:path*"
     }
   ]
 }
