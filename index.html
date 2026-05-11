@@ -902,11 +902,40 @@
             color: var(--text)
         }
 
-        .action-btn.collect {
-            background: var(--card2);
-            color: var(--amber);
-            border-color: rgba(255, 184, 77, 0.2);
-            grid-column: 1 / -1
+        .collect-topbar-btn {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border2);
+            background: transparent;
+            color: var(--muted2);
+            cursor: crosshair;
+            transition: all 0.15s;
+            letter-spacing: 0.04em
+        }
+        .collect-topbar-btn:hover {
+            border-color: var(--amber);
+            color: var(--amber)
+        }
+
+        #collect-section {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 7, 15, 0.85);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            padding: 16px;
+            overflow-y: auto;
+            animation: fadeIn 0.2s ease
+        }
+        @keyframes fadeIn {
+            from { opacity: 0 }
+            to { opacity: 1 }
+        }
+        #collect-section.open {
+            display: block
         }
 
         .toast-msg {
@@ -993,6 +1022,7 @@
                 </div>
                 <span class="topbar-title">compound_test.lab</span>
             </div>
+            <button class="collect-topbar-btn" onclick="toggleCollection()">◈ collection</button>
         </div>
         <div class="hero">
             <h1>what <span class="c1">compound</span><br>are <span class="c2">you??</span></h1>
@@ -1238,12 +1268,23 @@ Choose compounds that map to personality types. The formula must be real and cor
             } catch (e) {
                 console.warn('could not load collected stats');
             }
-            renderCollection();
+            if (document.getElementById('collect-section').classList.contains('open')) {
+                renderCollection();
+            }
         }
         loadCollectedStats();
 
-        updateCollectionSubtitle();
-        renderCollection();
+        function toggleCollection() {
+            const el = document.getElementById('collect-section');
+            if (el.classList.contains('open')) {
+                el.classList.remove('open');
+                document.body.style.overflow = '';
+            } else {
+                renderCollection();
+                el.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+        }
 
         function updateCollectionSubtitle() {
             const el = document.getElementById('collect-subtitle');
@@ -1354,6 +1395,18 @@ Choose compounds that map to personality types. The formula must be real and cor
             document.body.appendChild(el);
             setTimeout(() => el.remove(), 2500);
         }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('collect-section').classList.contains('open')) {
+                toggleCollection();
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target === document.getElementById('collect-section')) {
+                toggleCollection();
+            }
+        });
 
         const origShowResult = showResult;
         showResult = function(raw) {
