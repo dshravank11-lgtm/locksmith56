@@ -153,7 +153,19 @@
         function send(ans) { if (!ans || awaitingResult) return; appendMsg('user', ans); history.push({ role: 'user', content: ans }); qCount++; updateProgress(); clearOptions(); hideInput(); fetchAI(); }
         function sendText() { const i = document.getElementById('user-msg'); if (i.value.trim()) { send(i.value.trim()); i.value = ''; } }
         function updateProgress() { const p = Math.round(Math.min(qCount / 8, 1) * 100); document.getElementById('prog-fill').style.width = p + '%'; document.getElementById('pct-label').textContent = p + '%'; document.getElementById('q-num').textContent = qCount; }
-        function showQuestionWithOptions(t) { const parts = t.split('||'); appendMsg('bot', parts[0]); if (parts.length > 1) showOptions(parts.slice(1)); else showInput(); }
+function showQuestionWithOptions(t) {
+    const parts = t.split('||'); 
+    const question = parts[0].trim();
+    
+    appendMsg('bot', question); 
+    
+    if (parts.length > 1) {
+        const options = parts.slice(1).map(o => o.trim().replace(/^[A-D]\)\s*/, ''));
+        showOptions(options);
+    } else {
+        showInput();
+    }
+}
         function showOptions(opts) { const b = document.getElementById('options-bar'); b.innerHTML = ''; b.style.display = 'flex'; opts.forEach(o => { const btn = document.createElement('button'); btn.className='option-btn'; btn.textContent=o; btn.onclick=()=>send(o); b.appendChild(btn); }); awaitingResult=false; }
         function clearOptions() { document.getElementById('options-bar').style.display = 'none'; }
         function showInput() { document.getElementById('input-bar').style.display='flex'; document.getElementById('user-msg').disabled=false; document.getElementById('user-msg').focus(); awaitingResult=false; }
