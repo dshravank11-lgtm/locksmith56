@@ -113,7 +113,24 @@
         }
         animate();
 
-        let history = [{ role: 'system', content: `You are a chemistry personality quiz. Ask exactly 8 questions total — 5 multiple choice then 3 open-ended. After 8 answers, output RESULT: [name] | [IUPAC] | [formula] | [traits] | [pun].` }];
+ let history = [{ 
+    role: 'system', 
+    content: `You are a chemistry personality quiz. You MUST ask exactly ONE question at a time.
+    
+    TURN-BY-TURN RULES:
+    1. Turn 1: Ask Question 1 only.
+    2. Turn 2-5: Ask the next Multiple Choice question only.
+    3. Turn 6-8: Ask the next Open-Ended question only.
+    4. Turn 9: Provide the RESULT.
+
+    FORMATTING RULES:
+    - For Questions 1-5, use this EXACT format: Question text||Option A||Option B||Option C||Option D
+    - For Questions 6-8, provide only the question text.
+    - DO NOT include "Question X" or labels like "Multiple Choice" in your response.
+
+    RESULT FORMAT (After 8th answer):
+    RESULT: [name] | [IUPAC] | [formula] | [traits] | [pun]` 
+}];
         let qCount = 0, awaitingResult = false;
         const COOK_STEPS = [['🧪','running spectrometry...','fingerprinting'],['⚗️','cross-referencing...','element match'],['🔬','analysing bonds...','calculating'],['⚡','simulating...','volatility check'],['🧬','verdict ready','locked']];
 
