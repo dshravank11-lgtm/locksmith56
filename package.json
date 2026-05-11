@@ -1,11 +1,13 @@
 {
-  "name": "quiz-backend",
-  "version": "1.0.0",
-  "type": "module",
-  "engines": {
-    "node": "20.x"
-  },
-  "dependencies": {
-    "node-fetch": "^3.3.2"
-  }
+    "name": "quiz-backend",
+    "type": "module",
+    "engines": {
+        "node": "20.x"
+    },
+    "dependencies": {
+        "node-fetch": "^3.3.2"
+    },
+    "scripts": {
+        "start": "node server.js"
+    }
 }
