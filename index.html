@@ -901,6 +901,323 @@
             border-color: var(--muted2);
             color: var(--text)
         }
+
+        .action-btn.collect {
+            background: var(--card2);
+            color: var(--amber);
+            border-color: rgba(255, 184, 77, 0.2);
+            grid-column: 1 / -1
+        }
+
+        .action-btn.collect:hover {
+            border-color: var(--amber);
+            box-shadow: 0 0 20px rgba(255, 184, 77, 0.15)
+        }
+
+        #collect-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 7, 15, 0.85);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            padding: 16px;
+            overflow-y: auto;
+            animation: fadeIn 0.2s ease
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0 }
+            to { opacity: 1 }
+        }
+
+        #collect-overlay.open {
+            display: block
+        }
+
+        .collect-header {
+            max-width: 640px;
+            margin: 20px auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--card);
+            border: 1px solid var(--border2);
+            border-radius: 14px;
+            padding: 14px 18px
+        }
+
+        .collect-header h2 {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            color: var(--text);
+            letter-spacing: -0.02em
+        }
+
+        .collect-header span {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            color: var(--muted2)
+        }
+
+        .collect-close {
+            background: transparent;
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            color: var(--muted2);
+            padding: 6px 12px;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            cursor: crosshair;
+            transition: all 0.15s
+        }
+
+        .collect-close:hover {
+            border-color: var(--red);
+            color: var(--red)
+        }
+
+        .collect-grid {
+            max-width: 640px;
+            margin: 0 auto 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .collect-card {
+            background: var(--card);
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+            padding: 14px 16px;
+            transition: all 0.15s;
+            cursor: pointer
+        }
+
+        .collect-card:hover {
+            border-color: rgba(100, 200, 255, 0.2);
+            background: var(--card2)
+        }
+
+        .collect-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px
+        }
+
+        .collect-card-name {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.01em
+        }
+
+        .collect-card-name.got {
+            color: var(--lime)
+        }
+
+        .collect-card-badge {
+            font-family: var(--mono);
+            font-size: 0.55rem;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background: rgba(163, 255, 71, 0.08);
+            border: 1px solid rgba(163, 255, 71, 0.2);
+            color: var(--lime);
+            white-space: nowrap
+        }
+
+        .collect-card-badge.missing {
+            background: rgba(74, 106, 138, 0.08);
+            border-color: rgba(74, 106, 138, 0.2);
+            color: var(--muted)
+        }
+
+        .collect-card-body {
+            display: none;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+            font-size: 0.78rem;
+            line-height: 1.6;
+            color: var(--muted2)
+        }
+
+        .collect-card.open .collect-card-body {
+            display: block
+        }
+
+        .collect-card-iupac {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            color: var(--cyan);
+            margin-bottom: 6px
+        }
+
+        .collect-card-desc {
+            font-size: 0.78rem;
+            line-height: 1.6;
+            color: var(--muted2);
+            margin-bottom: 8px
+        }
+
+        .collect-card-pct {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            color: var(--muted);
+            letter-spacing: 0.04em
+        }
+
+        .collect-card-pct strong {
+            color: var(--amber)
+        }
+
+        .collect-card-formula {
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            color: var(--muted);
+            margin-top: 4px
+        }
+
+        .collect-loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--muted2);
+            font-family: var(--mono);
+            font-size: 0.72rem
+        }
+
+        .collect-stats-bar {
+            max-width: 640px;
+            margin: 0 auto 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px
+        }
+
+        .collect-stat {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center
+        }
+
+        .collect-stat-val {
+            font-family: var(--mono);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--lime);
+            display: block
+        }
+
+        .collect-stat-label {
+            font-family: var(--mono);
+            font-size: 0.5rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 2px;
+            display: block
+        }
+
+        .collect-search {
+            max-width: 640px;
+            margin: 0 auto 8px
+        }
+
+        .collect-search input {
+            width: 100%;
+            background: var(--card);
+            border: 1px solid var(--border2);
+            border-radius: 10px;
+            color: var(--text);
+            padding: 11px 14px;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            outline: none;
+            transition: border-color 0.2s
+        }
+
+        .collect-search input:focus {
+            border-color: var(--cyan)
+        }
+
+        .collect-search input::placeholder {
+            color: var(--muted)
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card);
+            border: 1px solid var(--lime);
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--lime);
+            z-index: 2000;
+            animation: toastPop 0.3s ease both;
+            pointer-events: none;
+            box-shadow: 0 0 30px rgba(163, 255, 71, 0.15)
+        }
+
+        @keyframes toastPop {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px) }
+            to { opacity: 1; transform: translateX(-50%) translateY(0) }
+        }
+
+        .collect-filter-bar {
+            max-width: 640px;
+            margin: 0 auto 8px;
+            display: flex;
+            gap: 6px
+        }
+
+        .collect-filter-btn {
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border2);
+            background: transparent;
+            color: var(--muted2);
+            cursor: crosshair;
+            transition: all 0.15s;
+            letter-spacing: 0.04em;
+            text-transform: uppercase
+        }
+
+        .collect-filter-btn:hover {
+            border-color: var(--muted2)
+        }
+
+        .collect-filter-btn.active {
+            background: rgba(0, 212, 255, 0.08);
+            border-color: var(--cyan);
+            color: var(--cyan)
+        }
+
+        .notification-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--lime);
+            margin-left: 5px;
+            vertical-align: middle;
+            animation: pulse 1.5s ease-in-out infinite
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1) }
+            50% { opacity: 0.5; transform: scale(1.3) }
+        }
     </style>
 </head>
 
@@ -990,8 +1307,28 @@
             <div class="result-actions">
                 <button class="action-btn primary" onclick="location.reload()"> ↺ re-synthesize </button>
                 <button class="action-btn secondary" onclick="shareResult()"> ⬡ share </button>
+                <button class="action-btn collect" onclick="openCollection()"> ◈ view compound collection </button>
             </div>
         </div>
+    </div>
+
+    <div id="collect-overlay">
+        <div class="collect-header">
+            <div><h2>◈ compound collection</h2><span id="collect-subtitle">loading...</span></div>
+            <button class="collect-close" onclick="closeCollection()">× close</button>
+        </div>
+        <div class="collect-stats-bar" id="collect-stats">
+            <div class="collect-stat"><span class="collect-stat-val" id="cs-total">—</span><span class="collect-stat-label">compounds</span></div>
+            <div class="collect-stat"><span class="collect-stat-val" id="cs-got">—</span><span class="collect-stat-label">you've got</span></div>
+            <div class="collect-stat"><span class="collect-stat-val" id="cs-people">—</span><span class="collect-stat-label">total collected</span></div>
+        </div>
+        <div class="collect-search"><input type="text" id="collect-search-input" placeholder="🔍 search compounds..." oninput="filterCollection()"></div>
+        <div class="collect-filter-bar" id="collect-filter-bar">
+            <button class="collect-filter-btn active" data-filter="all" onclick="setFilter('all',this)">all</button>
+            <button class="collect-filter-btn" data-filter="got" onclick="setFilter('got',this)">got</button>
+            <button class="collect-filter-btn" data-filter="missing" onclick="setFilter('missing',this)">missing</button>
+        </div>
+        <div class="collect-grid" id="collect-grid"></div>
     </div>
 
     <script>
@@ -1037,6 +1374,7 @@ RULES:
   Question text||Option 1||Option 2||Option 3||Option 4
   (2 to 5 options, separated by ||)
 - Questions 6-8: Just the question text, no options (open-ended).
+- CRITICAL: You MUST ONLY output one of these EXACT compound names in the RESULT (case-sensitive): Water, Salt, Sugar, Baking Soda, Vinegar, Bleach, Ammonia, Hydrogen Peroxide, Rubbing Alcohol, Acetone, Aspirin, Caffeine, Nicotine, Ethanol, Methanol, Glucose, Sucrose, Carbon Dioxide, Carbon Monoxide, Nitrous Oxide, Nitroglycerin, TNT, Dry Ice, Formaldehyde, Antifreeze, Teflon, Gasoline, Diesel, Propane, Butane, Methane, Oxygen, Hydrogen, Nitrogen, Helium, Neon, Chlorine, Fluorine, Gold, Silver, Iron, Copper, Aluminum, Lead, Mercury, Tin, Zinc, Platinum, Uranium, Calcium, Sodium, Potassium, Magnesium, Silicon, Sulfur, Phosphorus, Lithium, Arsenic, Bromine, Iodine, Titanium, Chromium, Nickel, Cobalt, Citric Acid, Lactic Acid, Acetic Acid, Sulfuric Acid, Hydrochloric Acid, Nitric Acid, Phosphoric Acid, Boric Acid, Lye, Soap, Glass, Diamond, Graphite, Chalk, Quartz, Clay, Cement, Concrete, Asphalt, Rubber, Nylon, Polyester, Silicone, Plastic, PVC, Styrofoam, Penicillin, Ibuprofen, Paracetamol, Morphine, Codeine, LSD, Cocaine, Heroin, Methamphetamine, Adderall, Prozac, Xanax, Valium, Viagra, Amoxicillin, Chlorophyll, Hemoglobin, Carotene, Lycopene, Menthol, Cinnamon, Vanillin, Capsaicin, Glue, Paint, Ink, Wax, Candle Wax, Perfume, Deodorant, Toothpaste, Shampoo, Conditioner, Lotion, Sunscreen, Lipstick, Nail Polish, Detergent, Disinfectant, Pesticide, Herbicide, Fertilizer, Gunpowder, Fireworks, Smoke. No other compounds allowed.
 
 After the 8th answer, output EXACTLY this format and nothing else:
 
@@ -1128,6 +1466,182 @@ Choose compounds that map to personality types. The formula must be real and cor
         }
         function imgLoaded() { document.getElementById('result-img').style.opacity = '1'; document.getElementById('img-loading-overlay').style.display = 'none'; }
         function imgFailed() { imgLoaded(); }
+
+        let compoundsData = [];
+        let collectedData = [];
+        let myCompounds = JSON.parse(localStorage.getItem('myCompounds') || '[]');
+        let currentFilter = 'all';
+
+        async function loadCompoundsData() {
+            try {
+                const res = await fetch('/api/compounds');
+                compoundsData = await res.json();
+                updateCollectionSubtitle();
+            } catch (e) {
+                console.warn('could not load compounds data');
+            }
+        }
+        loadCompoundsData();
+
+        async function loadCollectedStats() {
+            try {
+                const res = await fetch('/api/collected');
+                collectedData = await res.json();
+                updateCollectionSubtitle();
+            } catch (e) {
+                console.warn('could not load collected stats');
+            }
+        }
+        loadCollectedStats();
+
+        function updateCollectionSubtitle() {
+            const el = document.getElementById('collect-subtitle');
+            if (!el) return;
+            const total = compoundsData.length || '?';
+            const got = myCompounds.length;
+            el.textContent = `${got} / ${total} compounds collected`;
+        }
+
+        async function submitCompound(compoundName) {
+            if (!compoundName) return;
+            if (myCompounds.includes(compoundName)) return;
+            try {
+                const res = await fetch('/api/collected', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ compound: compoundName })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    myCompounds.push(compoundName);
+                    localStorage.setItem('myCompounds', JSON.stringify(myCompounds));
+                    loadCollectedStats();
+                    updateCollectionSubtitle();
+                }
+            } catch (e) {
+                console.warn('could not submit compound');
+            }
+        }
+
+        function openCollection() {
+            document.getElementById('collect-overlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+            renderCollection();
+        }
+
+        function closeCollection() {
+            document.getElementById('collect-overlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function renderCollection() {
+            const grid = document.getElementById('collect-grid');
+            if (!compoundsData.length) {
+                grid.innerHTML = '<div class="collect-loading">loading compounds...</div>';
+                return;
+            }
+
+            const search = (document.getElementById('collect-search-input').value || '').toLowerCase();
+            const totalSubmissions = collectedData.length || 1;
+
+            const compoundCounts = {};
+            for (const c of collectedData) {
+                compoundCounts[c.compound] = (compoundCounts[c.compound] || 0) + 1;
+            }
+
+            const total = compoundsData.length;
+            document.getElementById('cs-total').textContent = total;
+            document.getElementById('cs-got').textContent = myCompounds.length;
+            document.getElementById('cs-people').textContent = collectedData.length;
+
+            let filtered = compoundsData.filter(c => {
+                const match = c.name.toLowerCase().includes(search) || c.iupac.toLowerCase().includes(search);
+                const got = myCompounds.includes(c.name);
+                if (currentFilter === 'got' && !got) return false;
+                if (currentFilter === 'missing' && got) return false;
+                return match;
+            });
+
+            grid.innerHTML = filtered.map(c => {
+                const got = myCompounds.includes(c.name);
+                const count = compoundCounts[c.name] || 0;
+                const pct = Math.round((count / totalSubmissions) * 100);
+                return `<div class="collect-card${got ? ' got' : ''}" onclick="toggleCard(this)">
+                    <div class="collect-card-top">
+                        <span class="collect-card-name${got ? ' got' : ''}">${got ? '✓ ' : ''}${c.name}</span>
+                        <span class="collect-card-badge${got ? '' : ' missing'}">${got ? (pct > 0 ? pct + '%' : 'got') : 'new'}</span>
+                    </div>
+                    <div class="collect-card-body">
+                        <div class="collect-card-iupac">${c.iupac}</div>
+                        <div class="collect-card-formula">${c.formula}</div>
+                        <div class="collect-card-desc">${c.description}</div>
+                        <div class="collect-card-pct"><strong>${pct}%</strong> of people got this compound</div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function toggleCard(el) {
+            el.classList.toggle('open');
+        }
+
+        function filterCollection() {
+            renderCollection();
+        }
+
+        function setFilter(filter, btn) {
+            currentFilter = filter;
+            document.querySelectorAll('.collect-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderCollection();
+        }
+
+        document.addEventListener('click', function(e) {
+            if (e.target === document.getElementById('collect-overlay')) {
+                closeCollection();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('collect-overlay').classList.contains('open')) {
+                closeCollection();
+            }
+        });
+
+        function shareResult() {
+            const name = (document.getElementById('result-name').textContent || '').replace('you are: ', '').trim();
+            const iupac = document.getElementById('result-iupac').textContent;
+            const text = `i am ${name} (${iupac}) — what compound are you?\nhttps://locksmith56.vercel.app`;
+            if (navigator.share) {
+                navigator.share({ title: 'what compound are you?', text: text }).catch(() => {});
+            } else if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => showToast('result copied to clipboard!')).catch(() => {});
+            } else {
+                prompt('copy this:', text);
+            }
+        }
+
+        function showToast(msg) {
+            const existing = document.querySelector('.toast-msg');
+            if (existing) existing.remove();
+            const el = document.createElement('div');
+            el.className = 'toast-msg';
+            el.textContent = msg;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 2500);
+        }
+
+        const origShowResult = showResult;
+        showResult = function(raw) {
+            const p = raw.replace('RESULT:', '').split('|');
+            document.getElementById('cooking-panel').style.display = 'none'; document.getElementById('result-panel').style.display = 'flex';
+            document.getElementById('result-formula').textContent = p[2]; document.getElementById('result-name').innerHTML = `you are: <span class="highlight">${p[0]}</span>`;
+            document.getElementById('result-iupac').textContent = p[1] || '';
+            document.getElementById('result-pun').textContent = p[4];
+            const pr = document.getElementById('result-props'); pr.innerHTML = ''; (p[3] || '').split(',').forEach(t => { const c = document.createElement('span'); c.className = 'prop-chip'; c.textContent = t; pr.appendChild(c); });
+            loadCompoundImage(p[0]);
+            submitCompound(p[0].trim());
+        };
     </script>
 </body>
 
