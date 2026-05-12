@@ -49,7 +49,7 @@ Multiple Choice	5	Choose from 2-4 options
 Open-ended	3	Type your own answer
 After 8 answers, the AI determines your compound.
 
-🧪 Example Compounds
+# 🧪 Example Compounds
 Personality	Compound
 Chill & adaptable	Water (H₂O)
 Explosive temper	TNT
