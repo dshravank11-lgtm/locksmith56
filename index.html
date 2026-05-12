@@ -126,7 +126,7 @@
             margin-left: 8px
         }
 
-        /* COLLECTION BUTTON â€” bigger, more prominent */
+        /* COLLECTION BUTTON €” bigger, more prominent */
         .collect-topbar-btn {
             font-family: var(--mono);
             font-size: 0.68rem;
@@ -199,6 +199,36 @@
             color: var(--lime)
         }
 
+        .rotating-label-wrapper {
+            display: inline-block;
+            position: relative;
+            min-width: 160px;
+            height: 1.1em;
+            overflow: hidden;
+            vertical-align: bottom
+        }
+
+        .rotating-label {
+            position: absolute;
+            top: 0; left: 0;
+            white-space: nowrap;
+            transition: opacity 0.3s, transform 0.3s
+        }
+
+        .rotating-label.active { opacity: 1; transform: translateY(0) }
+        .rotating-label.exit-up { animation: exitUp 0.35s ease forwards }
+        .rotating-label.enter-down { animation: enterDown 0.35s ease forwards }
+
+        @keyframes exitUp {
+            from { opacity: 1; transform: translateY(0) }
+            to   { opacity: 0; transform: translateY(-100%) }
+        }
+
+        @keyframes enterDown {
+            from { opacity: 0; transform: translateY(100%) }
+            to   { opacity: 1; transform: translateY(0) }
+        }
+
         .hero-sub {
             font-size: 0.78rem;
             color: var(--muted2);
@@ -213,8 +243,22 @@
         .formula-strip {
             display: flex;
             gap: 6px;
-            flex-wrap: wrap;
-            margin-top: 12px
+            flex-wrap: nowrap;
+            margin-top: 12px;
+            overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent)
+        }
+
+        .formula-track {
+            display: flex;
+            gap: 6px;
+            animation: scrollFormulas 18s linear infinite;
+            white-space: nowrap
+        }
+
+        @keyframes scrollFormulas {
+            0%   { transform: translateX(0) }
+            100% { transform: translateX(-50%) }
         }
 
         .formula-pill {
@@ -223,7 +267,8 @@
             padding: 3px 8px;
             border-radius: 4px;
             border: 1px solid;
-            background: rgba(0, 0, 0, 0.3)
+            background: rgba(0, 0, 0, 0.3);
+            flex-shrink: 0
         }
 
         .fp-cyan {
@@ -272,7 +317,7 @@
         }
 
         .panel-label::before {
-            content: 'â¬¡';
+            content: '';
             color: var(--cyan);
             font-size: 0.7rem
         }
@@ -719,7 +764,7 @@
         }
 
         .result-eyebrow::before {
-            content: 'âš—';
+            content: '&#x2697;';
             animation: twinkle 1.5s ease-in-out infinite;
             font-style: normal
         }
@@ -996,9 +1041,9 @@
             color: var(--text)
         }
 
-        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-           COLLECTION OVERLAY â€” fully rebuilt
-        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        /* •••••••••••••••••••••••••••••••••••••••
+           COLLECTION OVERLAY €” fully rebuilt
+        ••••••••••••••••••••••••••••••••••••••• */
         #collect-overlay {
             display: none;
             position: fixed;
@@ -1445,26 +1490,30 @@
                 <span class="topbar-title">compound_test.lab</span>
             </div>
             <button class="collect-topbar-btn" onclick="openCollection()">
-                â—ˆ collection
+                &#9670; collection
                 <span class="collect-count-badge" id="topbar-count">0</span>
             </button>
         </div>
 
         <div class="hero">
-            <h1>what <span class="c1">compound</span><br>are <span class="c2">you??</span></h1>
+            <h1>
+                what
+                <span class="c1">
+                    <span class="rotating-label-wrapper" id="rotating-wrapper">
+                        <span class="rotating-label active" id="rotating-current">compound</span>
+                    </span>
+                </span><br>
+                are <span class="c2">you??</span>
+            </h1>
             <p class="hero-sub">5+3 reactions. <span>your answers.</span><br>one molecular verdict.</p>
             <div class="formula-strip">
-                <span class="formula-pill fp-cyan">Hâ‚‚O</span>
-                <span class="formula-pill fp-lime">Câ‚„Hâ‚â‚€</span>
-                <span class="formula-pill fp-amber">Câ‚ˆHâ‚â‚ˆ</span>
-                <span class="formula-pill fp-pink">Câ‚â‚‚Hâ‚‚â‚‚Oâ‚â‚</span>
-                <span class="formula-pill fp-red">TNT</span>
+                <div class="formula-track" id="formula-track"></div>
             </div>
         </div>
 
         <div id="setup-panel">
-            <div class="panel-label">âš¡ ready to synthesize</div>
-            <button class="start-btn" onclick="initGame()"> âš— begin synthesis â†’ </button>
+            <div class="panel-label">&#x2697; ready to synthesize</div>
+            <button class="start-btn" onclick="initGame()"> &#x2697; begin synthesis &rarr; </button>
         </div>
 
         <div id="game-ui">
@@ -1496,12 +1545,12 @@
             <div id="input-bar">
                 <input type="text" id="user-msg" placeholder="your answer..."
                     onkeypress="if(event.key==='Enter')sendText()">
-                <button class="send-btn" onclick="sendText()"> send â†’ </button>
+                <button class="send-btn" onclick="sendText()"> send &rarr; </button>
             </div>
         </div>
 
         <div id="cooking-panel">
-            <span class="cooking-emoji" id="cook-emoji">âš—ï¸</span>
+            <span class="cooking-emoji" id="cook-emoji">&#x2697;</span>
             <div class="cooking-title" id="cook-title">analysing your molecular structure...</div>
             <div class="cooking-sub" id="cook-sub">running compound analysis</div>
             <div class="cooking-track">
@@ -1513,8 +1562,8 @@
         <div id="result-panel">
             <div class="result-topbar">
                 <div class="result-eyebrow">compound identified</div>
-                <div class="result-formula" id="result-formula">â€”</div>
-                <div class="result-name" id="result-name">â€”</div>
+                <div class="result-formula" id="result-formula">&mdash;</div>
+                <div class="result-name" id="result-name">&mdash;</div>
                 <div class="result-iupac" id="result-iupac"></div>
             </div>
             <div class="result-compat" id="result-compat"></div>
@@ -1533,17 +1582,17 @@
                 </div>
             </div>
             <div class="result-desc-card">
-                <div class="result-desc-label"> â¬¡ personality analysis </div>
+                <div class="result-desc-label">&#x2B07; personality analysis</div>
                 <div class="result-properties" id="result-props"></div>
                 <div class="result-pun">
                     <span class="pun-quote">"</span>
-                    <span id="result-pun">â€”</span>
+                    <span id="result-pun">&mdash;</span>
                     <span class="pun-quote">"</span>
                 </div>
             </div>
             <div class="result-actions">
-                <button class="action-btn primary" onclick="location.reload()"> â†º re-synthesize </button>
-                <button class="action-btn secondary" onclick="shareResult()"> â¬¡ share </button>
+                <button class="action-btn primary" onclick="location.reload()"> &#x21BA; re-synthesize </button>
+                <button class="action-btn secondary" onclick="shareResult()">&#x2B07; share </button>
             </div>
         </div>
     </div>
@@ -1553,15 +1602,15 @@
         <div class="collect-shell">
             <div class="collect-header">
                 <div class="collect-header-left">
-                    <h2>â—ˆ compound collection</h2>
+                    <h2>&#9670; compound collection</h2>
                     <p id="collect-subtitle">loading compounds...</p>
                 </div>
-                <button class="collect-close-btn" onclick="closeCollection()">âœ• close</button>
+                <button class="collect-close-btn" onclick="closeCollection()">• close</button>
             </div>
 
             <div class="collect-stats-grid">
                 <div class="collect-stat-card">
-                    <span class="collect-stat-val sv-amber" id="cs-total">â€”</span>
+                    <span class="collect-stat-val sv-amber" id="cs-total">&mdash;</span>
                     <span class="collect-stat-label">total</span>
                 </div>
                 <div class="collect-stat-card">
@@ -1573,14 +1622,14 @@
                     <span class="collect-stat-label">completion</span>
                 </div>
                 <div class="collect-stat-card">
-                    <span class="collect-stat-val" id="cs-rarest" style="color:var(--pink);font-size:0.65rem"></span>
+                    <span class="collect-stat-val" id="cs-rarest" style="color:var(--pink);font-size:0.65rem">&mdash;</span>
                     <span class="collect-stat-label">rarest got</span>
                 </div>
             </div>
 
             <div class="collect-controls">
                 <input class="collect-search-input" type="text" id="collect-search-input"
-                    placeholder="ðŸ”¬ search compounds..." oninput="renderCollection()">
+                    placeholder="” search compounds..." oninput="renderCollection()">
                 <div class="collect-filter-bar">
                     <button class="collect-filter-btn active" onclick="setFilter('all',this)">all</button>
                     <button class="collect-filter-btn" onclick="setFilter('got',this)">got</button>
@@ -1597,36 +1646,36 @@
         // COMPOUNDS DATA
         // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                         const COMPOUNDS_DATA = [
-  {name:"Water",iupac:"water",formula:"H₂O",description:"The universal solvent — calm, adaptable, and essential for all known life. You go with the flow and make everything around you better.",tier:"uncommon"},
-  {name:"Oxygen",iupac:"dioxygen",formula:"O₂",description:"Vital and life-giving. You're the breath in every lung — essential, untouchable, everywhere.",tier:"uncommon"},
-  {name:"Iron",iupac:"iron",formula:"Fe",description:"Strong, foundational, and durable. You're the backbone of civilization — literally.",tier:"uncommon"},
+  {name:"Water",iupac:"water",formula:"H₂O",description:"The universal solvent \u2014 calm, adaptable, and essential for all known life. You go with the flow and make everything around you better.",tier:"uncommon"},
+  {name:"Oxygen",iupac:"dioxygen",formula:"O₂",description:"Vital and life-giving. You're the breath in every lung \u2014 essential, untouchable, everywhere.",tier:"uncommon"},
+  {name:"Iron",iupac:"iron",formula:"Fe",description:"Strong, foundational, and durable. You're the backbone of civilization \u2014 literally.",tier:"uncommon"},
   {name:"Copper",iupac:"copper",formula:"Cu",description:"Warm, conductive, and versatile. You carry energy and develop a beautiful patina over time.",tier:"uncommon"},
   {name:"Calcium",iupac:"calcium",formula:"Ca",description:"Solid, strengthening, and foundational. You're the structure that holds everything together.",tier:"uncommon"},
   {name:"Silicon",iupac:"silicon",formula:"Si",description:"The thinking element. You're the foundation of modern thought and digital connection.",tier:"uncommon"},
-  {name:"Salt",iupac:"sodium chloride",formula:"NaCl",description:"A crystalline essential — you're basic but necessary. You add flavor to life and preserve what matters.",tier:"uncommon"},
-  {name:"Carbon Dioxide",iupac:"carbon dioxide",formula:"CO₂",description:"A quiet exhale — you're everywhere but invisible. You sustain life but can overwhelm if unchecked.",tier:"uncommon"},
+  {name:"Salt",iupac:"sodium chloride",formula:"NaCl",description:"A crystalline essential \u2014 you're basic but necessary. You add flavor to life and preserve what matters.",tier:"uncommon"},
+  {name:"Carbon Dioxide",iupac:"carbon dioxide",formula:"CO₂",description:"A quiet exhale \u2014 you're everywhere but invisible. You sustain life but can overwhelm if unchecked.",tier:"uncommon"},
   {name:"Sugar",iupac:"sucrose",formula:"C₁₂H₂₂O₁₁",description:"Sweet, likable, and hard to resist. You make life sweeter and everyone wants a little more of you.",tier:"uncommon"},
   {name:"Caffeine",iupac:"1,3,7-trimethylxanthine",formula:"C₈H₁₀N₄O₂",description:"Energetic, focused, and alert. You wake people up and keep them going. The ultimate stimulant.",tier:"common"},
   {name:"Aluminum",iupac:"aluminium",formula:"Al",description:"Light, strong, and endlessly recyclable. You adapt without losing your strength.",tier:"common"},
-  {name:"Helium",iupac:"helium",formula:"He",description:"Lighthearted and buoyant. You lift spirits and make voices squeak — impossible to be sad around.",tier:"common"},
+  {name:"Helium",iupac:"helium",formula:"He",description:"Lighthearted and buoyant. You lift spirits and make voices squeak \u2014 impossible to be sad around.",tier:"common"},
   {name:"Neon",iupac:"neon",formula:"Ne",description:"Bright, flashy, and noble. You light up the night and catch everyone's eye.",tier:"common"},
   {name:"Chlorine",iupac:"chlorine",formula:"Cl₂",description:"Sharp and cleansing. You purify what's dirty but can be overwhelming in large doses.",tier:"common"},
   {name:"Soap",iupac:"sodium stearate",formula:"C₁₇H₃₅COONa",description:"Cleansing and comforting. You wash away the dirt and leave everything fresh.",tier:"common"},
   {name:"Glass",iupac:"silicon dioxide (amorphous)",formula:"SiO₂",description:"Transparent and fragile. You see through everything clearly but need careful handling.",tier:"common"},
-  {name:"Plastic",iupac:"polyethylene",formula:"(C₂H₄)ₙ",description:"Moldable and everywhere. You can become anything — the ultimate shape-shifter.",tier:"common"},
-  {name:"Ethanol",iupac:"ethyl alcohol",formula:"C₂H₅OH",description:"Social, warm, and uninhibited. You lower defenses and bring people together — sometimes with regret.",tier:"common"},
-  {name:"Formaldehyde",iupac:"methanal",formula:"CH₂O",description:"The simplest aldehyde — preserving, fixing, and foundational. You hold things in place and keep them from decay, the silent guardian of structure.",tier:"common"},
-  {name:"Titin",iupac:"titin",formula:"C₁₆₉₇₁₉H₂₇₀₄₆₄N₄₅₅₈₈O₅₂₂₃₉S₉₄₁",description:"The largest protein ever discovered — massive, elastic, and incredibly strong. You carry immense weight with surprising spring, giving structure and power to everything around you.",tier:"common"},
-  {name:"Uranium",iupac:"uranium",formula:"U",description:"Immense hidden power. You're calm until activated — then you change the world.",tier:"epic"},
+  {name:"Plastic",iupac:"polyethylene",formula:"(C₂H₄)ₙ",description:"Moldable and everywhere. You can become anything \u2014 the ultimate shape-shifter.",tier:"common"},
+  {name:"Ethanol",iupac:"ethyl alcohol",formula:"C₂H₅OH",description:"Social, warm, and uninhibited. You lower defenses and bring people together \u2014 sometimes with regret.",tier:"common"},
+  {name:"Formaldehyde",iupac:"methanal",formula:"CH₂O",description:"The simplest aldehyde \u2014 preserving, fixing, and foundational. You hold things in place and keep them from decay, the silent guardian of structure.",tier:"common"},
+  {name:"Titin",iupac:"titin",formula:"C₁₆₉₇₁₉H₂₇₀₄₆₄N₄₅₅₈₈O₅₂₂₃₉S₉₄₁",description:"The largest protein ever discovered \u2014 massive, elastic, and incredibly strong. You carry immense weight with surprising spring, giving structure and power to everything around you.",tier:"common"},
+  {name:"Uranium",iupac:"uranium",formula:"U",description:"Immense hidden power. You're calm until activated \u2014 then you change the world.",tier:"epic"},
   {name:"Titanium",iupac:"titanium",formula:"Ti",description:"Strong, light, and futuristic. You're built for extremes and never corrode under pressure.",tier:"epic"},
-  {name:"Hemoglobin",iupac:"hemoglobin",formula:"C₂₉₅₂H₄₆₆₄N₈₁₂O₈₃₂S₈Fe₄",description:"The breath of life. You carry oxygen to every corner — essential and tireless.",tier:"epic"},
-  {name:"Oganesson",iupac:"oganesson",formula:"Og",description:"The heaviest noble gas — elusive, theoretical, and barely existing. You're a rare presence that's incredibly dense yet unreactive, existing on the edge of possibility.",tier:"epic"},
+  {name:"Hemoglobin",iupac:"hemoglobin",formula:"C₂₉₅₂H₄₆₆₄N₈₁₂O₈₃₂S₈Fe₄",description:"The breath of life. You carry oxygen to every corner \u2014 essential and tireless.",tier:"epic"},
+  {name:"Oganesson",iupac:"oganesson",formula:"Og",description:"The heaviest noble gas \u2014 elusive, theoretical, and barely existing. You're a rare presence that's incredibly dense yet unreactive, existing on the edge of possibility.",tier:"epic"},
   {name:"TNT",iupac:"trinitrotoluene",formula:"C₇H₅N₃O₆",description:"Explosive, intense, and dramatic. One spark and you change everything around you.",tier:"epic"},
-  {name:"Diamond",iupac:"carbon (allotrope)",formula:"C",description:"Brilliant and unbreakable. You're the hardest thing there is — pressure made perfection.",tier:"epic"},
+  {name:"Diamond",iupac:"carbon (allotrope)",formula:"C",description:"Brilliant and unbreakable. You're the hardest thing there is \u2014 pressure made perfection.",tier:"epic"},
   {name:"Penicillin",iupac:"penicillin G",formula:"C₁₆H₁₈N₂O₄S",description:"The first miracle cure. You save lives quietly and changed medicine forever.",tier:"epic"},
-  {name:"Carbon",iupac:"carbon",formula:"C",description:"The element of life itself — versatile, bonding, and foundational. You form the backbone of every organic molecule, adapting to any structure and connecting everything together.",tier:"legendary"},
-  {name:"Gold",iupac:"gold",formula:"Au",description:"Precious, timeless, and untarnishable. You're rare and valuable — everyone wants you.",tier:"legendary"},
-  {name:"Dihydrogen Monoxide",iupac:"dihydrogen monoxide",formula:"H₂O",description:"The most abundant and misunderstood molecule on Earth. You're everywhere — essential, dangerous in excess, and hilariously overlooked despite being the basis of all life.",tier:"legendary"}
+  {name:"Carbon",iupac:"carbon",formula:"C",description:"The element of life itself \u2014 versatile, bonding, and foundational. You form the backbone of every organic molecule, adapting to any structure and connecting everything together.",tier:"legendary"},
+  {name:"Gold",iupac:"gold",formula:"Au",description:"Precious, timeless, and untarnishable. You're rare and valuable \u2014 everyone wants you.",tier:"legendary"},
+  {name:"Dihydrogen Monoxide",iupac:"dihydrogen monoxide",formula:"H₂O",description:"The most abundant and misunderstood molecule on Earth. You're everywhere \u2014 essential, dangerous in excess, and hilariously overlooked despite being the basis of all life.",tier:"legendary"}
 ];
         const COMPAT_MAP = {
             Water: ['Oxygen', 'Salt'],
@@ -1661,9 +1710,83 @@
             'Dihydrogen Monoxide': ['Water', 'Carbon Dioxide']
         };
 
-        // ─────────────────────────────────────────
+        // ---
+        // ROTATING HERO LABELS
+        // ---
+        const ROTATING_LABELS = [
+            { text: 'compound', color: '#00d4ff' },
+            { text: 'element',  color: '#a3ff47' },
+            { text: 'molecule', color: '#ffb84d' },
+            { text: 'acid',     color: '#ff4daa' },
+            { text: 'metal',    color: '#4dffcc' },
+            { text: 'ion',      color: '#bf55ec' },
+            { text: 'isotope',  color: '#ff4d4d' },
+            { text: 'polymer',  color: '#00d4ff' },
+        ];
+
+        let labelIdx = 0;
+        const wrapper = document.getElementById('rotating-wrapper');
+
+        function rotateLabel() {
+            const next = (labelIdx + 1) % ROTATING_LABELS.length;
+            const current = document.getElementById('rotating-current');
+            const nextLabel = ROTATING_LABELS[next];
+
+            current.classList.add('exit-up');
+
+            const el = document.createElement('span');
+            el.className = 'rotating-label enter-down';
+            el.textContent = nextLabel.text;
+            el.style.color = nextLabel.color;
+            wrapper.appendChild(el);
+
+            setTimeout(() => {
+                current.remove();
+                el.id = 'rotating-current';
+                el.classList.remove('enter-down');
+                el.classList.add('active');
+                labelIdx = next;
+            }, 350);
+        }
+
+        document.getElementById('rotating-current').style.color = ROTATING_LABELS[0].color;
+        setInterval(rotateLabel, 2200);
+
+        // ---
+        // ANIMATED FORMULA STRIP
+        // ---
+        const FORMULA_PILLS = [
+            { text: 'H\u2082O',          cls: 'fp-cyan'  },
+            { text: 'NaCl',              cls: 'fp-lime'  },
+            { text: 'C\u2088H\u2081\u2080N\u2084O\u2082', cls: 'fp-amber' },
+            { text: 'C\u2082H\u2085OH',  cls: 'fp-pink'  },
+            { text: 'Fe',                cls: 'fp-cyan'  },
+            { text: 'CO\u2082',          cls: 'fp-lime'  },
+            { text: 'TNT',               cls: 'fp-red'   },
+            { text: 'Au',                cls: 'fp-amber' },
+            { text: 'O\u2082',           cls: 'fp-cyan'  },
+            { text: 'C\u2087H\u2085N\u2083O\u2086', cls: 'fp-pink' },
+            { text: 'Si',                cls: 'fp-lime'  },
+            { text: 'C\u2081\u2082H\u2082\u2082O\u2081\u2081', cls: 'fp-amber' },
+            { text: 'Cl\u2082',          cls: 'fp-red'   },
+            { text: 'He',                cls: 'fp-cyan'  },
+            { text: 'SiO\u2082',         cls: 'fp-lime'  },
+            { text: 'Cu',                cls: 'fp-amber' },
+        ];
+
+        function buildFormulaTrack() {
+            const track = document.getElementById('formula-track');
+            const doubled = [...FORMULA_PILLS, ...FORMULA_PILLS];
+            track.innerHTML = doubled.map(p =>
+                '<span class="formula-pill ' + p.cls + '">' + p.text + '</span>'
+            ).join('');
+        }
+
+        buildFormulaTrack();
+
+        // ---
         // CANVAS ANIMATION
-        // ─────────────────────────────────────────
+        // ---
         const canvas = document.getElementById('atoms');
         const ctx = canvas.getContext('2d');
         let atoms = [];
@@ -1691,9 +1814,9 @@
         }
         animate();
 
-        // ─────────────────────────────────────────
-        // STORAGE — localStorage-based persistence
-        // ─────────────────────────────────────────
+        // ---
+        // STORAGE \u2014 localStorage-based persistence
+        // ---
 
         let myCompounds = [];
         let globalCounts = {};
@@ -1754,7 +1877,7 @@
             globalCounts[clean] = (globalCounts[clean] || 0) + 1;
             saveGlobalCounts();
             updateTopbarCount();
-            showToast(`⚗ ${clean} added to your collection!`);
+            showToast(`&#x2697; ${clean} added to your collection!`);
             fetch('/api/collected', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -1770,9 +1893,9 @@
         updateTopbarCount();
         fetchGlobalCounts();
 
-        // ─────────────────────────────────────────
+        // ---
         // TIER HELPERS
-        // ─────────────────────────────────────────
+        // ---
         function getTierInfo(tier) {
             if (tier === 'legendary') return { label: 'legendary', cls: 'rarity-legendary', priority: 4 };
             if (tier === 'epic') return { label: 'epic', cls: 'rarity-epic', priority: 3 };
@@ -1793,9 +1916,9 @@
             return myCompounds.length ? `${rarestName} (${rarestPriority === 4 ? 'legendary' : rarestPriority === 2 ? 'uncommon' : rarestPriority === 3 ? 'epic' : 'common'})` : '\u2014';
         }
 
-        // ─────────────────────────────────────────
+        // ---
         // COLLECTION UI
-        // ─────────────────────────────────────────
+        // ---
         let currentFilter = 'all';
 
         function openCollection() {
@@ -1847,7 +1970,7 @@
             const grid = document.getElementById('collect-grid');
 
             if (filtered.length === 0) {
-                grid.innerHTML = '<div class="empty-state">no compounds match your filter \u2697</div>';
+                grid.innerHTML = '<div class="empty-state">no compounds match your filter &#x2697; \u2697</div>';
                 return;
             }
 
@@ -1897,12 +2020,12 @@
             if (e.key === 'Escape') closeCollection();
         });
 
-        // ─────────────────────────────────────────
+        // ---
         // QUIZ GAME
-        // ─────────────────────────────────────────
+        // ---
         let history = [{
             role: 'system',
-            content: `You are a chemistry personality quiz. Ask exactly 8 questions total — 5 multiple choice then 3 open-ended — to figure out what chemical compound best represents the user''s personality.
+            content: `You are a chemistry personality quiz. Ask exactly 8 questions total \u2014 5 multiple choice then 3 open-ended \u2014 to figure out what chemical compound best represents the user''s personality.
 
 RULES:
 - One question per turn. No greeting, no fluff, no follow-up.
@@ -1926,7 +2049,7 @@ Choose compounds that map to personality types. The formula must be real and cor
 
 
         let qCount = 0, awaitingResult = false;
-        const COOK_STEPS = [['ðŸ§ª', 'running spectrometry...', 'fingerprinting'], ['âš—ï¸', 'cross-referencing...', 'element match'], ['ðŸ”¬', 'analysing bonds...', 'calculating'], ['âš¡', 'simulating...', 'volatility check'], ['ðŸ§¬', 'verdict ready', 'locked']];
+        const COOK_STEPS = [['ðŸ§ª', 'running spectrometry...', 'fingerprinting'], ['âš\u2014ï¸', 'cross-referencing...', 'element match'], ['ðŸ”¬', 'analysing bonds...', 'calculating'], ['âš¡', 'simulating...', 'volatility check'], ['ðŸ§¬', 'verdict ready', 'locked']];
 
         async function fetchAI() {
             awaitingResult = true;
@@ -2075,7 +2198,7 @@ Choose compounds that map to personality types. The formula must be real and cor
             const partners = COMPAT_MAP[name];
             const el = document.getElementById('result-compat');
             if (!partners) { el.innerHTML = ''; return; }
-            el.innerHTML = '<div class="result-compat-label">⚡ best paired with</div>' + partners.map(n => {
+            el.innerHTML = '<div class="result-compat-label">&#x26A1; best paired with</div>' + partners.map(n => {
                 const c = COMPOUNDS_DATA.find(d => d.name === n);
                 if (!c) return '';
                 return `<div class="result-compat-item">
