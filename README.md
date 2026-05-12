@@ -57,10 +57,10 @@ Sweet & likable	Sucrose
 Energetic & buzzy	Caffeine
 Slippery & avoidant	Teflon
 
-Author
+# Author
 dshravank11-lgtm
 
-Acknowledgments
+# Acknowledgments
 DeepSeek API for AI generation of questions
 
 Wikipedia for compound images
