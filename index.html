@@ -940,6 +940,21 @@
             letter-spacing: 0.04em
         }
 
+        .result-tier-wrap {
+            margin-top: 8px
+        }
+
+        .result-tier {
+            font-family: var(--mono);
+            font-size: 0.55rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            display: inline-block
+        }
+
         .result-compat {
             background: var(--card);
             border: 1px solid var(--border2);
@@ -960,6 +975,12 @@
             text-transform: uppercase;
             flex-shrink: 0;
             width: 100%
+        }
+
+        .result-compat-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
         }
 
         .result-compat-item {
@@ -1708,6 +1729,7 @@
                 <div class="result-formula" id="result-formula">&mdash;</div>
                 <div class="result-name" id="result-name">&mdash;</div>
                 <div class="result-iupac" id="result-iupac"></div>
+                <div class="result-tier-wrap"><span class="result-tier" id="result-tier"></span></div>
             </div>
             <div class="result-compat" id="result-compat"></div>
 
@@ -1851,6 +1873,39 @@
             Carbon: ['Diamond', 'Carbon Dioxide'],
             Gold: ['Helium', 'Neon'],
             'Dihydrogen Monoxide': ['Water', 'Carbon Dioxide']
+        };
+
+        const WORST_MAP = {
+            Water: ['TNT', 'Ethanol'],
+            Oxygen: ['Carbon Dioxide', 'Chlorine'],
+            Iron: ['Helium', 'Plastic'],
+            Copper: ['Plastic', 'Helium'],
+            Calcium: ['Uranium', 'Oganesson'],
+            Silicon: ['Ethanol', 'Helium'],
+            Salt: ['Sugar', 'Ethanol'],
+            'Carbon Dioxide': ['Oxygen', 'Hemoglobin'],
+            Sugar: ['Salt', 'Chlorine'],
+            Caffeine: ['Ethanol', 'Formaldehyde'],
+            Aluminum: ['Gold', 'Diamond'],
+            Helium: ['Iron', 'Uranium'],
+            Neon: ['Glass', 'Plastic'],
+            Chlorine: ['Hemoglobin', 'Sugar'],
+            Soap: ['TNT', 'Uranium'],
+            Glass: ['Neon', 'Helium'],
+            Plastic: ['Diamond', 'Titanium'],
+            Ethanol: ['Caffeine', 'Water'],
+            Formaldehyde: ['Penicillin', 'Water'],
+            Titin: ['Diamond', 'Helium'],
+            Uranium: ['Calcium', 'Water'],
+            Titanium: ['Plastic', 'Helium'],
+            Hemoglobin: ['Chlorine', 'Carbon Dioxide'],
+            Oganesson: ['Soap', 'Calcium'],
+            TNT: ['Water', 'Soap'],
+            Diamond: ['Plastic', 'Titin'],
+            Penicillin: ['Formaldehyde', 'TNT'],
+            Carbon: ['Helium', 'Neon'],
+            Gold: ['Aluminum', 'Plastic'],
+            'Dihydrogen Monoxide': ['Ethanol', 'TNT']
         };
 
         // ---
@@ -2426,6 +2481,16 @@ Choose compounds that map to personality types. The formula must be real and cor
             document.getElementById('result-panel').style.display = 'flex';
             document.getElementById('result-formula').textContent = p[2];
             document.getElementById('result-name').innerHTML = `you are: <span class="highlight">${p[0]}</span>`;
+            const compound = COMPOUNDS_DATA.find(d => d.name === p[0]);
+            const tierEl = document.getElementById('result-tier');
+            if (compound && compound.tier) {
+                const info = getTierInfo(compound.tier);
+                tierEl.textContent = info.label;
+                tierEl.className = 'result-tier ' + info.cls;
+            } else {
+                tierEl.textContent = '';
+                tierEl.className = 'result-tier';
+            }
             document.getElementById('result-iupac').textContent = p[1] || '';
             document.getElementById('result-pun').textContent = p[4];
 
@@ -2445,20 +2510,27 @@ Choose compounds that map to personality types. The formula must be real and cor
 
         function renderCompatibility(name) {
             const partners = COMPAT_MAP[name];
+            const enemies = WORST_MAP[name];
             const el = document.getElementById('result-compat');
-            if (!partners) { el.innerHTML = ''; return; }
-            el.innerHTML = '<div class="result-compat-label">&#x26A1; best paired with</div>' + partners.map(n => {
-                const c = COMPOUNDS_DATA.find(d => d.name === n);
-                if (!c) return '';
-                return `<div class="result-compat-item">
-                    <img src="" alt="${c.name}" data-compound="${c.name}" onerror="this.src='https://picsum.photos/seed/${encodeURIComponent(c.name)}/100/100'">
-                    <div>
-                        <div class="compat-name">${c.name}</div>
-                        <div class="compat-formula">${c.formula}</div>
-                    </div>
-                </div>`;
-            }).join('');
-            partners.forEach(n => loadSmallImage(n));
+            if (!partners && !enemies) { el.innerHTML = ''; return; }
+            let html = '';
+            if (partners) {
+                html += '<div class="result-compat-label">&#x26A1; best paired with</div><div class="result-compat-row">' + partners.map(n => {
+                    const c = COMPOUNDS_DATA.find(d => d.name === n);
+                    if (!c) return '';
+                    return '<div class="result-compat-item"><img src="" alt="' + c.name + '" data-compound="' + c.name + '" onerror="this.src=\'https://picsum.photos/seed/' + encodeURIComponent(c.name) + '/100/100\'"><div><div class="compat-name">' + c.name + '</div><div class="compat-formula">' + c.formula + '</div></div></div>';
+                }).join('') + '</div>';
+                partners.forEach(n => loadSmallImage(n));
+            }
+            if (enemies) {
+                html += '<div class="result-compat-label" style="margin-top:10px;color:var(--red)">&#x26A1; worst paired with</div><div class="result-compat-row">' + enemies.map(n => {
+                    const c = COMPOUNDS_DATA.find(d => d.name === n);
+                    if (!c) return '';
+                    return '<div class="result-compat-item"><img src="" alt="' + c.name + '" data-compound="' + c.name + '" onerror="this.src=\'https://picsum.photos/seed/' + encodeURIComponent(c.name) + '/100/100\'"><div><div class="compat-name">' + c.name + '</div><div class="compat-formula">' + c.formula + '</div></div></div>';
+                }).join('') + '</div>';
+                enemies.forEach(n => loadSmallImage(n));
+            }
+            el.innerHTML = html;
         }
 
         async function loadSmallImage(n) {
