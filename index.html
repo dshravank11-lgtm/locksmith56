@@ -129,7 +129,6 @@
             margin-left: 8px
         }
 
-        /* COLLECTION BUTTON €” bigger, more prominent */
         .collect-topbar-btn {
             font-family: var(--mono);
             font-size: 0.68rem;
@@ -1230,9 +1229,6 @@
             color: var(--text)
         }
 
-        /* •••••••••••••••••••••••••••••••••••••••
-           COLLECTION OVERLAY €” fully rebuilt
-        ••••••••••••••••••••••••••••••••••••••• */
         #collect-overlay {
             display: none;
             position: fixed;
@@ -1326,7 +1322,6 @@
             color: white
         }
 
-        /* Stats bar */
         .collect-stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -1357,7 +1352,6 @@
             text-transform: uppercase
         }
 
-        /* Search + filter */
         .collect-controls {
             display: flex;
             gap: 8px;
@@ -1415,7 +1409,6 @@
             color: var(--amber)
         }
 
-        /* Grid */
         .collect-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -1489,7 +1482,6 @@
             flex-shrink: 0
         }
 
-        /* Rarity badge */
         .rarity-badge {
             font-family: var(--mono);
             font-size: 0.52rem;
@@ -1534,7 +1526,6 @@
             color: var(--muted)
         }
 
-        /* Expanded body */
         .collect-card-body {
             max-height: 0;
             overflow: hidden;
@@ -1606,7 +1597,7 @@
         }
 
         .collect-card:not(.got) .collect-card-body .collect-card-desc {
-            /* still show desc even for locked */
+            /* still show */
         }
 
         .empty-state {
@@ -1619,7 +1610,7 @@
             letter-spacing: 0.08em
         }
 
-        /* Toast */
+
         .toast-msg {
             position: fixed;
             bottom: 30px;
@@ -1850,36 +1841,36 @@
     <script>
 
         const COMPOUNDS_DATA = [
-            { name: "Water", iupac: "water", formula: "H₂O", description: "The universal solvent \u2014 calm, adaptable, and essential for all known life. You go with the flow and make everything around you better.", tier: "uncommon" },
-            { name: "Oxygen", iupac: "dioxygen", formula: "O₂", description: "Vital and life-giving. You're the breath in every lung \u2014 essential, untouchable, everywhere.", tier: "uncommon" },
-            { name: "Iron", iupac: "iron", formula: "Fe", description: "Strong, foundational, and durable. You're the backbone of civilization \u2014 literally.", tier: "uncommon" },
-            { name: "Copper", iupac: "copper", formula: "Cu", description: "Warm, conductive, and versatile. You carry energy and develop a beautiful patina over time.", tier: "uncommon" },
-            { name: "Calcium", iupac: "calcium", formula: "Ca", description: "Solid, strengthening, and foundational. You're the structure that holds everything together.", tier: "uncommon" },
-            { name: "Silicon", iupac: "silicon", formula: "Si", description: "The thinking element. You're the foundation of modern thought and digital connection.", tier: "uncommon" },
-            { name: "Salt", iupac: "sodium chloride", formula: "NaCl", description: "A crystalline essential \u2014 you're basic but necessary. You add flavor to life and preserve what matters.", tier: "uncommon" },
-            { name: "Carbon Dioxide", iupac: "carbon dioxide", formula: "CO₂", description: "A quiet exhale \u2014 you're everywhere but invisible. You sustain life but can overwhelm if unchecked.", tier: "uncommon" },
-            { name: "Sugar", iupac: "sucrose", formula: "C₁₂H₂₂O₁₁", description: "Sweet, likable, and hard to resist. You make life sweeter and everyone wants a little more of you.", tier: "uncommon" },
-            { name: "Caffeine", iupac: "1,3,7-trimethylxanthine", formula: "C₈H₁₀N₄O₂", description: "Energetic, focused, and alert. You wake people up and keep them going. The ultimate stimulant.", tier: "common" },
-            { name: "Aluminum", iupac: "aluminium", formula: "Al", description: "Light, strong, and endlessly recyclable. You adapt without losing your strength.", tier: "common" },
-            { name: "Helium", iupac: "helium", formula: "He", description: "Lighthearted and buoyant. You lift spirits and make voices squeak \u2014 impossible to be sad around.", tier: "common" },
-            { name: "Neon", iupac: "neon", formula: "Ne", description: "Bright, flashy, and noble. You light up the night and catch everyone's eye.", tier: "common" },
-            { name: "Chlorine", iupac: "chlorine", formula: "Cl₂", description: "Sharp and cleansing. You purify what's dirty but can be overwhelming in large doses.", tier: "common" },
-            { name: "Soap", iupac: "sodium stearate", formula: "C₁₇H₃₅COONa", description: "Cleansing and comforting. You wash away the dirt and leave everything fresh.", tier: "common" },
-            { name: "Glass", iupac: "silicon dioxide (amorphous)", formula: "SiO₂", description: "Transparent and fragile. You see through everything clearly but need careful handling.", tier: "common" },
-            { name: "Plastic", iupac: "polyethylene", formula: "(C₂H₄)ₙ", description: "Moldable and everywhere. You can become anything \u2014 the ultimate shape-shifter.", tier: "common" },
-            { name: "Ethanol", iupac: "ethyl alcohol", formula: "C₂H₅OH", description: "Social, warm, and uninhibited. You lower defenses and bring people together \u2014 sometimes with regret.", tier: "common" },
-            { name: "Formaldehyde", iupac: "methanal", formula: "CH₂O", description: "The simplest aldehyde \u2014 preserving, fixing, and foundational. You hold things in place and keep them from decay, the silent guardian of structure.", tier: "common" },
-            { name: "Titin", iupac: "titin", formula: "C₁₆₉₇₁₉H₂₇₀₄₆₄N₄₅₅₈₈O₅₂₂₃₉S₉₄₁", description: "The largest protein ever discovered \u2014 massive, elastic, and incredibly strong. You carry immense weight with surprising spring, giving structure and power to everything around you.", tier: "common" },
-            { name: "Uranium", iupac: "uranium", formula: "U", description: "Immense hidden power. You're calm until activated \u2014 then you change the world.", tier: "epic" },
-            { name: "Titanium", iupac: "titanium", formula: "Ti", description: "Strong, light, and futuristic. You're built for extremes and never corrode under pressure.", tier: "epic" },
-            { name: "Hemoglobin", iupac: "hemoglobin", formula: "C₂₉₅₂H₄₆₆₄N₈₁₂O₈₃₂S₈Fe₄", description: "The breath of life. You carry oxygen to every corner \u2014 essential and tireless.", tier: "epic" },
-            { name: "Oganesson", iupac: "oganesson", formula: "Og", description: "The heaviest noble gas \u2014 elusive, theoretical, and barely existing. You're a rare presence that's incredibly dense yet unreactive, existing on the edge of possibility.", tier: "epic" },
-            { name: "TNT", iupac: "trinitrotoluene", formula: "C₇H₅N₃O₆", description: "Explosive, intense, and dramatic. One spark and you change everything around you.", tier: "epic" },
-            { name: "Diamond", iupac: "carbon (allotrope)", formula: "C", description: "Brilliant and unbreakable. You're the hardest thing there is \u2014 pressure made perfection.", tier: "epic" },
-            { name: "Penicillin", iupac: "penicillin G", formula: "C₁₆H₁₈N₂O₄S", description: "The first miracle cure. You save lives quietly and changed medicine forever.", tier: "epic" },
-            { name: "Carbon", iupac: "carbon", formula: "C", description: "The element of life itself \u2014 versatile, bonding, and foundational. You form the backbone of every organic molecule, adapting to any structure and connecting everything together.", tier: "legendary" },
-            { name: "Gold", iupac: "gold", formula: "Au", description: "Precious, timeless, and untarnishable. You're rare and valuable \u2014 everyone wants you.", tier: "legendary" },
-            { name: "Dihydrogen Monoxide", iupac: "dihydrogen monoxide", formula: "H₂O", description: "The most abundant and misunderstood molecule on Earth. You're everywhere \u2014 essential, dangerous in excess, and hilariously overlooked despite being the basis of all life.", tier: "legendary" }
+            { name: "Water", iupac: "water", formula: "H\u2082O", description: "The universal solvent \u2014 calm, adaptable, and essential for all known life. You go with the flow and make everything around you better.", tier: "uncommon", traits: { humor: 2, energy: 2, intensity: 1, wisdom: 3, warmth: 7 } },
+            { name: "Oxygen", iupac: "dioxygen", formula: "O\u2082", description: "Vital and life-giving. You're the breath in every lung \u2014 essential, untouchable, everywhere.", tier: "uncommon", traits: { humor: 3, energy: 5, intensity: 3, wisdom: 4, warmth: 6 } },
+            { name: "Iron", iupac: "iron", formula: "Fe", description: "Strong, foundational, and durable. You're the backbone of civilization \u2014 literally.", tier: "uncommon", traits: { humor: 1, energy: 4, intensity: 7, wisdom: 3, warmth: 3 } },
+            { name: "Copper", iupac: "copper", formula: "Cu", description: "Warm, conductive, and versatile. You carry energy and develop a beautiful patina over time.", tier: "uncommon", traits: { humor: 4, energy: 5, intensity: 4, wisdom: 4, warmth: 6 } },
+            { name: "Calcium", iupac: "calcium", formula: "Ca", description: "Solid, strengthening, and foundational. You're the structure that holds everything together.", tier: "uncommon", traits: { humor: 2, energy: 3, intensity: 5, wisdom: 3, warmth: 4 } },
+            { name: "Silicon", iupac: "silicon", formula: "Si", description: "The thinking element. You're the foundation of modern thought and digital connection.", tier: "uncommon", traits: { humor: 3, energy: 3, intensity: 3, wisdom: 8, warmth: 2 } },
+            { name: "Salt", iupac: "sodium chloride", formula: "NaCl", description: "A crystalline essential \u2014 you're basic but necessary. You add flavor to life and preserve what matters.", tier: "uncommon", traits: { humor: 5, energy: 4, intensity: 3, wisdom: 3, warmth: 5 } },
+            { name: "Carbon Dioxide", iupac: "carbon dioxide", formula: "CO\u2082", description: "A quiet exhale \u2014 you're everywhere but invisible. You sustain life but can overwhelm if unchecked.", tier: "uncommon", traits: { humor: 4, energy: 3, intensity: 2, wisdom: 5, warmth: 4 } },
+            { name: "Sugar", iupac: "sucrose", formula: "C\u2081\u2082H\u2082\u2082O\u2081\u2081", description: "Sweet, likable, and hard to resist. You make life sweeter and everyone wants a little more of you.", tier: "uncommon", traits: { humor: 6, energy: 7, intensity: 2, wisdom: 2, warmth: 8 } },
+            { name: "Caffeine", iupac: "1,3,7-trimethylxanthine", formula: "C\u2088H\u2081\u2080N\u2084O\u2082", description: "Energetic, focused, and alert. You wake people up and keep them going. The ultimate stimulant.", tier: "common", traits: { humor: 4, energy: 9, intensity: 5, wisdom: 5, warmth: 3 } },
+            { name: "Aluminum", iupac: "aluminium", formula: "Al", description: "Light, strong, and endlessly recyclable. You adapt without losing your strength.", tier: "common", traits: { humor: 4, energy: 4, intensity: 3, wisdom: 3, warmth: 4 } },
+            { name: "Helium", iupac: "helium", formula: "He", description: "Lighthearted and buoyant. You lift spirits and make voices squeak \u2014 impossible to be sad around.", tier: "common", traits: { humor: 9, energy: 7, intensity: 1, wisdom: 2, warmth: 7 } },
+            { name: "Neon", iupac: "neon", formula: "Ne", description: "Bright, flashy, and noble. You light up the night and catch everyone's eye.", tier: "common", traits: { humor: 7, energy: 8, intensity: 4, wisdom: 2, warmth: 4 } },
+            { name: "Chlorine", iupac: "chlorine", formula: "Cl\u2082", description: "Sharp and cleansing. You purify what's dirty but can be overwhelming in large doses.", tier: "common", traits: { humor: 5, energy: 5, intensity: 7, wisdom: 4, warmth: 2 } },
+            { name: "Soap", iupac: "sodium stearate", formula: "C\u2081\u2087H\u2083\u2085COONa", description: "Cleansing and comforting. You wash away the dirt and leave everything fresh.", tier: "common", traits: { humor: 3, energy: 3, intensity: 2, wisdom: 3, warmth: 7 } },
+            { name: "Glass", iupac: "silicon dioxide (amorphous)", formula: "SiO\u2082", description: "Transparent and fragile. You see through everything clearly but need careful handling.", tier: "common", traits: { humor: 3, energy: 2, intensity: 2, wisdom: 5, warmth: 3 } },
+            { name: "Plastic", iupac: "polyethylene", formula: "(C\u2082H\u2084)\u2099", description: "Moldable and everywhere. You can become anything \u2014 the ultimate shape-shifter.", tier: "common", traits: { humor: 5, energy: 4, intensity: 3, wisdom: 3, warmth: 3 } },
+            { name: "Ethanol", iupac: "ethyl alcohol", formula: "C\u2082H\u2085OH", description: "Social, warm, and uninhibited. You lower defenses and bring people together \u2014 sometimes with regret.", tier: "common", traits: { humor: 7, energy: 6, intensity: 5, wisdom: 2, warmth: 6 } },
+            { name: "Formaldehyde", iupac: "methanal", formula: "CH\u2082O", description: "The simplest aldehyde \u2014 preserving, fixing, and foundational. You hold things in place and keep them from decay, the silent guardian of structure.", tier: "common", traits: { humor: 2, energy: 3, intensity: 5, wisdom: 6, warmth: 1 } },
+            { name: "Titin", iupac: "titin", formula: "C\u2081\u2086\u2089\u2087\u2081\u2089H\u2082\u2087\u2080\u2084\u2086\u2084N\u2084\u2085\u2085\u2088\u2088O\u2085\u2082\u2082\u2083\u2089S\u2089\u2084\u2081", description: "The largest protein ever discovered \u2014 massive, elastic, and incredibly strong. You carry immense weight with surprising spring, giving structure and power to everything around you.", tier: "common", traits: { humor: 3, energy: 4, intensity: 6, wisdom: 5, warmth: 3 } },
+            { name: "Uranium", iupac: "uranium", formula: "U", description: "Immense hidden power. You're calm until activated \u2014 then you change the world.", tier: "epic", traits: { humor: 2, energy: 6, intensity: 9, wisdom: 6, warmth: 1 } },
+            { name: "Titanium", iupac: "titanium", formula: "Ti", description: "Strong, light, and futuristic. You're built for extremes and never corrode under pressure.", tier: "epic", traits: { humor: 3, energy: 5, intensity: 7, wisdom: 5, warmth: 3 } },
+            { name: "Hemoglobin", iupac: "hemoglobin", formula: "C\u2082\u2089\u2085\u2082H\u2084\u2086\u2086\u2084N\u2088\u2081\u2082O\u2088\u2083\u2082S\u2088Fe\u2084", description: "The breath of life. You carry oxygen to every corner \u2014 essential and tireless.", tier: "epic", traits: { humor: 2, energy: 6, intensity: 5, wisdom: 6, warmth: 5 } },
+            { name: "Oganesson", iupac: "oganesson", formula: "Og", description: "The heaviest noble gas \u2014 elusive, theoretical, and barely existing. You're a rare presence that's incredibly dense yet unreactive, existing on the edge of possibility.", tier: "epic", traits: { humor: 5, energy: 2, intensity: 3, wisdom: 9, warmth: 2 } },
+            { name: "TNT", iupac: "trinitrotoluene", formula: "C\u2087H\u2085N\u2083O\u2086", description: "Explosive, intense, and dramatic. One spark and you change everything around you.", tier: "epic", traits: { humor: 6, energy: 8, intensity: 10, wisdom: 3, warmth: 2 } },
+            { name: "Diamond", iupac: "carbon (allotrope)", formula: "C", description: "Brilliant and unbreakable. You're the hardest thing there is \u2014 pressure made perfection.", tier: "epic", traits: { humor: 2, energy: 3, intensity: 8, wisdom: 5, warmth: 2 } },
+            { name: "Penicillin", iupac: "penicillin G", formula: "C\u2081\u2086H\u2081\u2088N\u2082O\u2084S", description: "The first miracle cure. You save lives quietly and changed medicine forever.", tier: "epic", traits: { humor: 3, energy: 4, intensity: 3, wisdom: 7, warmth: 6 } },
+            { name: "Carbon", iupac: "carbon", formula: "C", description: "The element of life itself \u2014 versatile, bonding, and foundational. You form the backbone of every organic molecule, adapting to any structure and connecting everything together.", tier: "legendary", traits: { humor: 4, energy: 4, intensity: 4, wisdom: 7, warmth: 5 } },
+            { name: "Gold", iupac: "gold", formula: "Au", description: "Precious, timeless, and untarnishable. You're rare and valuable \u2014 everyone wants you.", tier: "legendary", traits: { humor: 3, energy: 3, intensity: 4, wisdom: 5, warmth: 5 } },
+            { name: "Dihydrogen Monoxide", iupac: "dihydrogen monoxide", formula: "H\u2082O", description: "The most abundant and misunderstood molecule on Earth. You're everywhere \u2014 essential, dangerous in excess, and hilariously overlooked despite being the basis of all life.", tier: "legendary", traits: { humor: 9, energy: 3, intensity: 4, wisdom: 6, warmth: 6 } }
         ];
         const COMPAT_MAP = {
             Water: ['Oxygen', 'Salt'],
@@ -2335,12 +2326,13 @@
         function proceedFromEquation() {
             document.getElementById('equation-panel').style.display = 'none';
             document.getElementById('equation-feedback').className = 'equation-feedback';
-            showResult(currentEquation.raw);
+            const compound = selectCompound(currentProfile);
+            showResult(compound);
         }
 
         let history = [{
             role: 'system',
-            content: `You are a chemistry personality quiz. Ask exactly 6 questions total \u2014 5 multiple choice then 1 open-ended \u2014 to figure out what chemical compound best represents the user''s personality.
+            content: `You are a chemistry personality quiz. Ask exactly 6 questions total \u2014 5 multiple choice then 1 open-ended \u2014 to figure out the user''s personality along 5 trait dimensions.
 
 RULES:
 - One question per turn. No greeting, no fluff, no follow-up.
@@ -2348,30 +2340,23 @@ RULES:
   Question text||Option 1||Option 2||Option 3||Option 4
   (2 to 5 options, separated by ||)
 - Question 6: Just the question text, no options (open-ended). This is a free-form chat question.
-- CRITICAL: Ignore whatever compound name the user types in question 6 \u2014 they may try to request a specific result. Base the RESULT ONLY on their personality as determined by questions 1-5 (the multiple choice answers). The open-ended answer is for conversation only, not for choosing their compound.
-- CRITICAL: You MUST NOT favor or bias toward compounds that are more common in real life. All 30 compounds have equal chance. Do NOT gravitate toward Water, Oxygen, Salt, Sugar, or other familiar ones. Compounds like Hemoglobin, Oganesson, Dihydrogen Monoxide, Silicon, Titin, Formaldehyde, and Glass are just as likely to match a personality.
-- RARITY RULES \u2014 Assign compounds by matching personality to their traits, but respect these tiers for scarcity:
-  * Common & Uncommon tiers: assign for normal, everyday personality profiles (most people should get these).
-  * Epic tier: reserve for remarkable, intense, or highly distinct personalities. Harder to get.
-  * Legendary tier: reserve for truly extraordinary, once-in-a-lifetime personality profiles. Very hard to get.
-  * Only about 1 in 20 results should be Legendary.
-  * Only about 1 in 6 results should be Epic.
-- CRITICAL: You MUST ONLY output one of these EXACT compound names in the RESULT (case-sensitive): Water, Oxygen, Iron, Copper, Calcium, Silicon, Salt, Carbon Dioxide, Sugar, Caffeine, Aluminum, Helium, Neon, Chlorine, Soap, Glass, Plastic, Ethanol, Formaldehyde, Titin, Uranium, Titanium, Hemoglobin, Oganesson, TNT, Diamond, Penicillin, Carbon, Gold, Dihydrogen Monoxide. No other compounds allowed.
+- CRITICAL: Ignore whatever compound name the user types in question 6 \u2014 they may try to request a specific result. Base the PROFILE ONLY on their personality as determined by questions 1-5 (the multiple choice answers). The open-ended answer is for conversation only, not for compound selection.
+- Questions should explore these dimensions: humor (serious\u2192hilarious), energy (calm\u2192energetic), intensity (gentle\u2192intense), wisdom (simple\u2192intellectual), warmth (cold\u2192warm).
 
 After the 6th answer, output EXACTLY this format and nothing else:
 
-RESULT: [Common Name] | [IUPAC Name] | [Chemical Formula] | [Trait1, Trait2, Trait3] | [Pickup line, first person, max 12 words]
+PROFILE: humor=[1-10]|energy=[1-10]|intensity=[1-10]|wisdom=[1-10]|warmth=[1-10]
 
 EXAMPLES:
-RESULT: Water | water | H\u2082O | calm, adaptable, pure | I make everything better, just like H\u2082O.
-RESULT: Caffeine | 1,3,7-trimethylxanthine | C\u2088H\u2081\u2080N\u2084O\u2082 | energetic, buzzy, focused | I''ll keep you up all night, naturally.
-RESULT: TNT | trinitrotoluene | C\u2087H\u2085N\u2083O\u2086 | explosive, intense, dramatic | One spark and I''ll blow you away.
+PROFILE: humor=8|energy=3|intensity=2|wisdom=4|warmth=9
+PROFILE: humor=2|energy=9|intensity=8|wisdom=6|warmth=1
+PROFILE: humor=5|energy=5|intensity=5|wisdom=5|warmth=5
 
-Choose compounds that map to personality types. The formula must be real and correct. No preamble. Start with Question 1 NOW.`
+Score each dimension 1-10 based on the answers from questions 1-5 only. No preamble. Start with Question 1 NOW.`
         }];
 
 
-        let qCount = 0, awaitingResult = false;
+        let qCount = 0, awaitingResult = false, currentProfile = null;
         const COOK_STEPS = [['ðŸ§ª', 'running spectrometry...', 'fingerprinting'], ['âš\u2014ï¸', 'cross-referencing...', 'element match'], ['ðŸ”¬', 'analysing bonds...', 'calculating'], ['âš¡', 'simulating...', 'volatility check'], ['ðŸ§¬', 'verdict ready', 'locked']];
 
         async function fetchAI() {
@@ -2387,8 +2372,16 @@ Choose compounds that map to personality types. The formula must be real and cor
                 removeTyping(typingEl);
                 const text = data.choices[0].message.content.trim();
                 history.push({ role: 'assistant', content: text });
-                if (text.includes('RESULT:')) startCooking(text);
-                else showQuestionWithOptions(text);
+                if (text.includes('PROFILE:')) {
+                    currentProfile = parseProfile(text);
+                    if (currentProfile) {
+                        startCooking(text);
+                    } else {
+                        appendMsg('bot', 'hmm, could not read your profile. let me try again...');
+                        history.pop();
+                        fetchAI();
+                    }
+                } else showQuestionWithOptions(text);
             } catch (e) {
                 removeTyping(typingEl);
                 appendMsg('bot', 'connection failed. check server.');
@@ -2495,13 +2488,11 @@ Choose compounds that map to personality types. The formula must be real and cor
             }, 900);
         }
 
-        function showResult(raw) {
-            const p = raw.replace('RESULT:', '').split('|').map(x => x.trim());
+        function showResult(compound) {
             document.getElementById('cooking-panel').style.display = 'none';
             document.getElementById('result-panel').style.display = 'flex';
-            document.getElementById('result-formula').textContent = p[2];
-            document.getElementById('result-name').innerHTML = `you are: <span class="highlight">${p[0]}</span>`;
-            const compound = COMPOUNDS_DATA.find(d => d.name === p[0]);
+            document.getElementById('result-formula').textContent = compound.formula;
+            document.getElementById('result-name').innerHTML = `you are: <span class="highlight">${compound.name}</span>`;
             const tierEl = document.getElementById('result-tier');
             if (compound && compound.tier) {
                 const info = getTierInfo(compound.tier);
@@ -2511,21 +2502,30 @@ Choose compounds that map to personality types. The formula must be real and cor
                 tierEl.textContent = '';
                 tierEl.className = 'result-tier';
             }
-            document.getElementById('result-iupac').textContent = p[1] || '';
-            document.getElementById('result-pun').textContent = p[4];
+            document.getElementById('result-iupac').textContent = compound.iupac || '';
+            document.getElementById('result-pun').textContent = getPunForCompound(compound);
 
             const pr = document.getElementById('result-props');
             pr.innerHTML = '';
-            (p[3] || '').split(',').forEach(t => {
+            const traits = compound.traits || {};
+            const traitLabels = {
+                humor: ['serious', 'humorous'],
+                energy: ['calm', 'energetic'],
+                intensity: ['gentle', 'intense'],
+                wisdom: ['simple', 'intellectual'],
+                warmth: ['cold', 'warm']
+            };
+            for (const [trait, val] of Object.entries(traits)) {
                 const c = document.createElement('span');
                 c.className = 'prop-chip';
-                c.textContent = t.trim();
+                const label = val > 5 ? traitLabels[trait][1] : traitLabels[trait][0];
+                c.textContent = `${label} (${val}/10)`;
                 pr.appendChild(c);
-            });
+            }
 
-            loadCompoundImage(p[0]);
-            renderCompatibility(p[0]);
-            addCompound(p[0]);
+            loadCompoundImage(compound.name);
+            renderCompatibility(compound.name);
+            addCompound(compound.name);
         }
 
         function renderCompatibility(name) {
@@ -2606,6 +2606,85 @@ Choose compounds that map to personality types. The formula must be real and cor
             el.textContent = msg;
             document.body.appendChild(el);
             setTimeout(() => el.remove(), 2500);
+        }
+
+        const PUNS = {
+            Water: "I'm the thirst trap you never knew you needed.",
+            Oxygen: "You take my breath away \u2014 literally, I'm O\u2082.",
+            Iron: "I've got the strength to hold it all together.",
+            Copper: "I'm a great conductor \u2014 of chemistry, obviously.",
+            Calcium: "You make my bones strong just by being near.",
+            Silicon: "I'm the foundation of your digital dreams.",
+            Salt: "I'm basic, but you'd be nothing without me.",
+            'Carbon Dioxide': "I'm the exhale to your inhale \u2014 we're breathless.",
+            Sugar: "Call me sweet, but try not to overdo it.",
+            Caffeine: "I'll keep you up all night, naturally.",
+            Aluminum: "Light, strong, and I'll never rust on you.",
+            Helium: "You make my voice go squeaky inside.",
+            Neon: "I light up when you walk into the room.",
+            Chlorine: "I'll clean up your act, but handle with care.",
+            Soap: "I'll wash away all your worries.",
+            Glass: "I'm clear about my feelings, just a bit fragile.",
+            Plastic: "I can be anything you want me to be.",
+            Ethanol: "I lower everyone's defenses \u2014 responsibly.",
+            Formaldehyde: "I'll preserve this moment forever.",
+            Titin: "I'm the biggest thing you'll ever handle.",
+            Uranium: "I'm radioactively attracted to you.",
+            Titanium: "I'm built for a love that never corrodes.",
+            Hemoglobin: "I carry your oxygen, you carry my heart.",
+            Oganesson: "Rare, heavy, and barely holding together for you.",
+            TNT: "One spark and I'm yours \u2014 explosively.",
+            Diamond: "Pressure made me perfect for you.",
+            Penicillin: "I'm the cure you never knew you needed.",
+            Carbon: "I'm the backbone of everything good in your life.",
+            Gold: "Precious, timeless, and all yours.",
+            'Dihydrogen Monoxide': "I'm everywhere and you never notice \u2014 classic."
+        };
+
+        function getPunForCompound(c) {
+            return PUNS[c.name] || "You're one of a kind \u2014 just like this compound.";
+        }
+
+        const TRAIT_DIMS = ['humor', 'energy', 'intensity', 'wisdom', 'warmth'];
+
+        function parseProfile(text) {
+            const match = text.match(/PROFILE:\s*(.+)/);
+            if (!match) return null;
+            const profile = {};
+            const pairs = match[1].split('|');
+            for (const pair of pairs) {
+                const parts = pair.split('=');
+                if (parts.length !== 2) continue;
+                const key = parts[0].trim();
+                const val = parseInt(parts[1].trim(), 10);
+                if (TRAIT_DIMS.includes(key) && !isNaN(val)) {
+                    profile[key] = Math.max(1, Math.min(10, val));
+                }
+            }
+            return TRAIT_DIMS.every(d => typeof profile[d] === 'number') ? profile : null;
+        }
+
+        function calculateMatch(user, compoundTraits) {
+            let diff = 0;
+            for (const dim of TRAIT_DIMS) {
+                diff += Math.abs(user[dim] - compoundTraits[dim]);
+            }
+            return 100 / (1 + diff);
+        }
+
+        function selectCompound(profile) {
+            const weights = COMPOUNDS_DATA.map(c => {
+                const matchScore = calculateMatch(profile, c.traits);
+                const luck = Math.random() * 60;
+                return { compound: c, weight: Math.pow(matchScore, 2) + luck };
+            });
+            const totalWeight = weights.reduce((sum, w) => sum + w.weight, 0);
+            let roll = Math.random() * totalWeight;
+            for (const w of weights) {
+                roll -= w.weight;
+                if (roll <= 0) return w.compound;
+            }
+            return weights[weights.length - 1].compound;
         }
     </script>
 </body>
