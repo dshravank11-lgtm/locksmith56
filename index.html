@@ -8,6 +8,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap"
         rel="stylesheet">
+    <script defer src="/_vercel/insights/script.js"></script>
     <style>
         *,
         *::before,
@@ -1032,13 +1033,28 @@
             min-width: 140px
         }
 
-        .result-compat-item img {
+        .result-compat-item .compat-img {
             width: 44px;
             height: 44px;
             border-radius: 8px;
             object-fit: cover;
             background: var(--card2);
-            flex-shrink: 0
+            flex-shrink: 0;
+            display: block
+        }
+        .compat-placeholder {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            background: var(--card2);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--mono);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--muted)
         }
 
         .result-compat-item .compat-name {
@@ -2534,34 +2550,39 @@ Score each dimension 1-10 based on the answers from questions 1-5 only. No pream
             const el = document.getElementById('result-compat');
             if (!partners && !enemies) { el.innerHTML = ''; return; }
             let html = '';
+            const makeItem = function(c) {
+                if (!c) return '';
+                var text = c.formula.replace(/[₁₂₃₄₅₆₇₈₉₀]/g, '').substring(0, 3);
+                return '<div class="result-compat-item"><div class="compat-placeholder" data-compound="' + c.name + '">' + text + '</div><img class="compat-img" data-compound="' + c.name + '" alt="' + c.name + '" style="display:none"><div><div class="compat-name">' + c.name + '</div><div class="compat-formula">' + c.formula + '</div></div></div>';
+            };
             if (partners) {
-                html += '<div class="result-compat-label">&#x26A1; best paired with</div><div class="result-compat-row">' + partners.map(n => {
-                    const c = COMPOUNDS_DATA.find(d => d.name === n);
-                    if (!c) return '';
-                    return '<div class="result-compat-item"><img src="data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44"><rect width="44" height="44" fill="#0c1525" rx="4"/><text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="16" font-weight="bold" fill="#4a6a8a">' + (c.formula.replace(/[₁₂₃₄₅₆₇₈₉₀]/g, '').substring(0, 3)) + '</text></svg>') + '" alt="' + c.name + '" data-compound="' + c.name + '"><div><div class="compat-name">' + c.name + '</div><div class="compat-formula">' + c.formula + '</div></div></div>';
-                }).join('') + '</div>';
-                partners.forEach(n => loadSmallImage(n));
+                html += '<div class="result-compat-label">&#x26A1; best paired with</div><div class="result-compat-row">' + partners.map(function(n) { return makeItem(COMPOUNDS_DATA.find(function(d) { return d.name === n; })); }).join('') + '</div>';
+                partners.forEach(function(n) { loadSmallImage(n); });
             }
             if (enemies) {
-                html += '<div class="result-compat-label" style="margin-top:10px;color:var(--red)">&#x26A1; worst paired with</div><div class="result-compat-row">' + enemies.map(n => {
-                    const c = COMPOUNDS_DATA.find(d => d.name === n);
-                    if (!c) return '';
-                    return '<div class="result-compat-item"><img src="data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44"><rect width="44" height="44" fill="#0c1525" rx="4"/><text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="16" font-weight="bold" fill="#4a6a8a">' + (c.formula.replace(/[₁₂₃₄₅₆₇₈₉₀]/g, '').substring(0, 3)) + '</text></svg>') + '" alt="' + c.name + '" data-compound="' + c.name + '"><div><div class="compat-name">' + c.name + '</div><div class="compat-formula">' + c.formula + '</div></div></div>';
-                }).join('') + '</div>';
-                enemies.forEach(n => loadSmallImage(n));
+                html += '<div class="result-compat-label" style="margin-top:10px;color:var(--red)">&#x26A1; worst paired with</div><div class="result-compat-row">' + enemies.map(function(n) { return makeItem(COMPOUNDS_DATA.find(function(d) { return d.name === n; })); }).join('') + '</div>';
+                enemies.forEach(function(n) { loadSmallImage(n); });
             }
             el.innerHTML = html;
         }
 
         async function loadSmallImage(n) {
-            const img = document.querySelector(`.result-compat-item img[data-compound="${n}"]`);
-            if (!img) return;
+            const placeholder = document.querySelector(`.compat-placeholder[data-compound="${n}"]`);
+            if (!placeholder) return;
             try {
                 const r = await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(n)}&prop=pageimages&format=json&pithumbsize=100&origin=*`);
                 const d = await r.json();
                 const pg = d.query.pages;
                 const url = pg[Object.keys(pg)[0]].thumbnail?.source;
-                if (url) { img.src = url; return; }
+                if (url) {
+                    var img = document.querySelector(`.compat-img[data-compound="${n}"]`);
+                    if (img) {
+                        img.src = url;
+                        placeholder.style.display = 'none';
+                        img.style.display = 'block';
+                    }
+                    return;
+                }
             } catch (e) { }
         }
 
