@@ -2391,7 +2391,6 @@ PROFILE: humor=5|energy=5|intensity=5|wisdom=5|warmth=5
 Score each dimension 1-10 based on the answers from questions 1-5 only. No preamble. Start with Question 1 NOW.`
         }];
 
-        // FIX 1: COOK_STEPS — proper emoji, no mojibake
         const COOK_STEPS = [
             ['🧪', 'running spectrometry...', 'fingerprinting'],
             ['⚗️', 'cross-referencing...', 'element match'],
@@ -2572,9 +2571,8 @@ Score each dimension 1-10 based on the answers from questions 1-5 only. No pream
             addCompound(compound.name);
         }
 
-        // FIX 2: renderCompatibility + loadSmallImage — use unique IDs for reliable DOM lookup
+        
         function makeCompatId(name, type) {
-            // Create a safe DOM id from compound name and type (img or placeholder)
             return type + '_' + name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
         }
 
@@ -2588,7 +2586,6 @@ Score each dimension 1-10 based on the answers from questions 1-5 only. No pream
                 if (!c) return '';
                 const placeholderId = makeCompatId(c.name, 'ph');
                 const imgId = makeCompatId(c.name, 'img');
-                // Short text label for placeholder (up to 3 chars from symbol)
                 const sym = c.formula.replace(/[₀₁₂₃₄₅₆₇₈₉]/g, '').substring(0, 3);
                 return `<div class="result-compat-item">
                     <div class="compat-placeholder" id="${placeholderId}">${sym}</div>
@@ -2613,7 +2610,6 @@ Score each dimension 1-10 based on the answers from questions 1-5 only. No pream
             }
             el.innerHTML = html;
 
-            // Now DOM is updated — load images using the stable IDs
             const allNames = [...(partners || []), ...(enemies || [])];
             allNames.forEach(n => loadSmallImage(n));
         }
@@ -2638,12 +2634,11 @@ Score each dimension 1-10 based on the answers from questions 1-5 only. No pream
                         placeholder.style.display = 'none';
                         imgEl.style.display = 'block';
                     };
-                    imgEl.onerror = () => { /* keep placeholder */ };
+                    imgEl.onerror = () => {};
                     imgEl.src = url;
                 }
-                // If no url, placeholder stays visible — which is fine
+
             } catch (e) {
-                // Network error — placeholder stays, no crash
             }
         }
 
