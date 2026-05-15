@@ -2538,7 +2538,7 @@ Score each dimension 1-10 based on the answers from questions 1-5 only. No pream
                 html += '<div class="result-compat-label">&#x26A1; best paired with</div><div class="result-compat-row">' + partners.map(n => {
                     const c = COMPOUNDS_DATA.find(d => d.name === n);
                     if (!c) return '';
-                    return '<div class="result-compat-item"><img src="" alt="' + c.name + '" data-compound="' + c.name + '" onerror="this.src=\'https://picsum.photos/seed/' + encodeURIComponent(c.name) + '/100/100\'"><div><div class="compat-name">' + c.name + '</div><div class="compat-formula">' + c.formula + '</div></div></div>';
+                    return '<div class="result-compat-item"><img src="data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44"><rect width="44" height="44" fill="#0c1525" rx="4"/><text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="16" font-weight="bold" fill="#4a6a8a">' + (c.formula.replace(/[₁₂₃₄₅₆₇₈₉₀]/g, '').substring(0, 3)) + '</text></svg>') + '" alt="' + c.name + '" data-compound="' + c.name + '"><div><div class="compat-name">' + c.name + '</div><div class="compat-formula">' + c.formula + '</div></div></div>';
                 }).join('') + '</div>';
                 partners.forEach(n => loadSmallImage(n));
             }
@@ -2546,7 +2546,7 @@ Score each dimension 1-10 based on the answers from questions 1-5 only. No pream
                 html += '<div class="result-compat-label" style="margin-top:10px;color:var(--red)">&#x26A1; worst paired with</div><div class="result-compat-row">' + enemies.map(n => {
                     const c = COMPOUNDS_DATA.find(d => d.name === n);
                     if (!c) return '';
-                    return '<div class="result-compat-item"><img src="" alt="' + c.name + '" data-compound="' + c.name + '" onerror="this.src=\'https://picsum.photos/seed/' + encodeURIComponent(c.name) + '/100/100\'"><div><div class="compat-name">' + c.name + '</div><div class="compat-formula">' + c.formula + '</div></div></div>';
+                    return '<div class="result-compat-item"><img src="data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44"><rect width="44" height="44" fill="#0c1525" rx="4"/><text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="16" font-weight="bold" fill="#4a6a8a">' + (c.formula.replace(/[₁₂₃₄₅₆₇₈₉₀]/g, '').substring(0, 3)) + '</text></svg>') + '" alt="' + c.name + '" data-compound="' + c.name + '"><div><div class="compat-name">' + c.name + '</div><div class="compat-formula">' + c.formula + '</div></div></div>';
                 }).join('') + '</div>';
                 enemies.forEach(n => loadSmallImage(n));
             }
@@ -2563,12 +2563,13 @@ Score each dimension 1-10 based on the answers from questions 1-5 only. No pream
                 const url = pg[Object.keys(pg)[0]].thumbnail?.source;
                 if (url) { img.src = url; return; }
             } catch (e) { }
-            img.src = 'https://picsum.photos/seed/' + encodeURIComponent(n) + '/100/100';
         }
 
         async function loadCompoundImage(n) {
             const img = document.getElementById('result-img');
             const clean = n.trim();
+            const compound = COMPOUNDS_DATA.find(d => d.name === clean);
+            const formula = compound ? compound.formula : clean;
             try {
                 const r = await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(clean)}&prop=pageimages&format=json&pithumbsize=500&origin=*`);
                 const d = await r.json();
@@ -2576,7 +2577,13 @@ Score each dimension 1-10 based on the answers from questions 1-5 only. No pream
                 const url = pg[Object.keys(pg)[0]].thumbnail?.source;
                 if (url) { img.src = url; return; }
             } catch (e) { }
-            img.src = 'https://picsum.photos/seed/' + clean + '/800/500';
+            img.src = 'data:image/svg+xml,' + encodeURIComponent(
+                '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">' +
+                '<rect width="800" height="500" fill="#080e1c"/>' +
+                '<text x="400" y="230" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="48" font-weight="bold" fill="#4a6a8a">' + formula + '</text>' +
+                '<text x="400" y="290" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="20" fill="#2a4a6a">' + clean + '</text>' +
+                '</svg>'
+            );
         }
 
         function imgLoaded() {
